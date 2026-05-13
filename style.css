@@ -1,0 +1,800 @@
+/* ================================
+   Reset & Variables
+================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0a0a1a;
+  --surface: #12122a;
+  --primary: #00d4ff;
+  --secondary: #ff00aa;
+  --accent: #ffcc00;
+  --easy: #44ee88;
+  --normal: #ffcc00;
+  --hard: #ff4466;
+  --text: #ffffff;
+  --text-dim: #7788aa;
+  --font: 'Segoe UI', system-ui, sans-serif;
+  --mono: 'Consolas', 'Courier New', monospace;
+  --radius: 0.75rem;
+}
+
+/* ================================
+   Base
+================================ */
+body {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 20%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(255, 0, 170, 0.06) 0%, transparent 50%);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding: 1.5rem;
+}
+
+/* ================================
+   Screen Transitions
+================================ */
+.screen {
+  display: none;
+  animation: fadeIn 0.35s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   Start Screen
+================================ */
+.start-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.title {
+  font-size: clamp(3rem, 12vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% { filter: brightness(1); }
+  50%       { filter: brightness(1.25); }
+}
+
+.subtitle {
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  margin-top: 0.5rem;
+}
+
+/* Game Type Selector */
+.gametype-selector {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.gametype-btn {
+  flex: 1;
+  padding: 0.65rem 0.5rem;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.gametype-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+
+/* Mode Selector */
+.mode-selector {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.mode-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.mode-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 0.7rem 0.5rem;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.mode-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.mode-btn.active[data-mode="rookie"] {
+  border-color: var(--easy);
+  color: var(--easy);
+  background: rgba(68, 238, 136, 0.1);
+  box-shadow: 0 0 14px rgba(68, 238, 136, 0.25);
+}
+
+.mode-btn.active[data-mode="fighter"] {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(0, 212, 255, 0.1);
+  box-shadow: 0 0 14px rgba(0, 212, 255, 0.25);
+}
+
+.mode-btn.active[data-mode="veteran"] {
+  border-color: var(--normal);
+  color: var(--normal);
+  background: rgba(255, 204, 0, 0.1);
+  box-shadow: 0 0 14px rgba(255, 204, 0, 0.25);
+}
+
+.mode-btn.active[data-mode="elite"] {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  background: rgba(255, 0, 170, 0.1);
+  box-shadow: 0 0 14px rgba(255, 0, 170, 0.25);
+}
+
+.mode-btn.active[data-mode="legend"] {
+  border-color: var(--hard);
+  color: var(--hard);
+  background: rgba(255, 68, 102, 0.1);
+  box-shadow: 0 0 14px rgba(255, 68, 102, 0.25);
+}
+
+.mode-description {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  min-height: 1.3em;
+  transition: opacity 0.2s;
+}
+
+/* Primary Button (shared by Start and Restart) */
+.primary-btn {
+  display: block;
+  width: 100%;
+  padding: 1.1rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 212, 255, 0.3);
+}
+
+.primary-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ================================
+   Game Screen
+================================ */
+
+/* タイマーバー（カード底面に一体化） */
+.timer-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 0 0 1.25rem 1.25rem;
+  overflow: hidden;
+}
+
+.timer-bar {
+  height: 100%;
+  width: 100%;
+  background: var(--primary);
+  border-radius: 0;
+  transition: width 0.9s linear;
+}
+
+.timer-bar.warning {
+  background: var(--hard);
+  animation: timerFlash 0.5s ease-in-out infinite alternate;
+}
+
+/* ゲーム画面 */
+#screen-game.active {
+  position: relative;
+  min-height: calc(100vh - 3rem);
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
+}
+
+.pause-btn {
+  align-self: center;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  color: var(--text-dim);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.pause-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.stat-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+  margin-bottom: 0.2rem;
+}
+
+.stat-value {
+  font-family: var(--mono);
+  font-size: 2.75rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+@keyframes timerFlash {
+  from { opacity: 1; }
+  to   { opacity: 0.35; }
+}
+
+#score-value {
+  color: var(--accent);
+}
+
+/* お題エリア（画面の半分より少し上に絶対配置） */
+.center-content {
+  position: absolute;
+  top: 58%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.stage-indicator {
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  align-self: center;
+  margin-left: auto;
+}
+
+/* Word Display — カード型お題エリア */
+.word-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  background: rgba(12, 12, 30, 0.78);
+  border: 1px solid rgba(0, 212, 255, 0.18);
+  border-bottom: none;
+  border-radius: 1.25rem 1.25rem 0 0;
+  padding: 1.5rem 1.5rem 1.25rem;
+  box-shadow: 0 6px 36px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(8px);
+}
+
+/* ふりがな（最小） */
+.current-word-ja ruby rt {
+  font-size: 0.42em;
+  color: var(--text-dim);
+}
+
+/* 漢字・日本語（最大） */
+.current-word-ja {
+  font-family: var(--font);
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  font-weight: 700;
+  color: var(--text);
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  max-width: 100%;
+  text-align: center;
+  line-height: 1.9;
+}
+
+/* ローマ字（中くらい） */
+.current-word {
+  font-family: var(--mono);
+  font-size: clamp(1rem, 2.8vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  white-space: normal;
+  word-break: break-all;
+  text-align: center;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 0.6rem;
+}
+
+.char-correct { color: var(--easy); }
+.char-wrong   { color: var(--hard); }
+.char-pending { color: rgba(200, 215, 235, 0.72); }
+
+.current-word.anim-correct {
+  animation: correctPop 0.28s ease forwards;
+}
+
+.current-word.anim-appear {
+  animation: wordAppear 0.22s ease forwards;
+}
+
+@keyframes correctPop {
+  0%   { transform: scale(1);    color: var(--primary); }
+  50%  { transform: scale(1.18); color: var(--easy); }
+  100% { transform: scale(1);    color: var(--primary); }
+}
+
+@keyframes wordAppear {
+  from { opacity: 0; transform: translateY(-8px) scale(0.92); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* Typing Input */
+.input-area {
+  height: 0;
+  overflow: hidden;
+}
+
+.typing-input {
+  display: block;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  ime-mode: inactive; /* 日本語IMEをデフォルト無効化 (非推奨だが主要ブラウザで有効) */
+}
+
+.typing-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15);
+}
+
+.typing-input.input-error {
+  border-color: var(--hard);
+  box-shadow: 0 0 0 3px rgba(255, 68, 102, 0.15);
+}
+
+.typing-input:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ================================
+   Result Screen
+================================ */
+.result-content {
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.result-title {
+  font-size: 2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2rem;
+}
+
+.final-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.final-score-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin-bottom: 0.4rem;
+}
+
+.final-score-value {
+  font-family: var(--mono);
+  font-size: clamp(4rem, 18vw, 6.5rem);
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  animation: scorePopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scorePopIn {
+  from { transform: scale(0.3); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.final-score-unit {
+  font-size: 1.4rem;
+  color: var(--text-dim);
+  margin-top: 0.2rem;
+}
+
+.result-message {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  margin-bottom: 2.5rem;
+  min-height: 1.5em;
+}
+
+/* Result screen の primary-btn は幅を auto に */
+#screen-result .primary-btn {
+  width: auto;
+  display: inline-block;
+  padding: 1rem 3rem;
+}
+
+/* ================================
+   HP Battle
+================================ */
+.hp-area {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hp-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.hp-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  width: 3rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.hp-bar-wrap {
+  flex: 1;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.hp-bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.2s ease;
+}
+
+.hp-bar-player { background: var(--easy); }
+.hp-bar-enemy  { background: var(--hard); }
+
+.hp-value {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+  width: 2.2rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.battle-result {
+  margin-bottom: 1.5rem;
+}
+
+.reached-stage-info {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
+.best-stage-info {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 0.4rem;
+}
+
+.battle-hp-summary {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+/* Combo Display */
+.battle-extras {
+  margin-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.combo-row {
+  text-align: center;
+  min-height: 1.4rem;
+}
+
+.combo-display {
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+
+
+/* Enemy Character */
+.enemy-area {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+#enemy-emoji {
+  font-size: 5rem;
+  line-height: 1;
+}
+
+.enemy-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-top: 0.2rem;
+}
+
+.enemy-area.anim-enemy-hit {
+  animation: enemyShake 0.35s ease;
+}
+
+@keyframes enemyShake {
+  0%,100% { transform: translateX(0) rotate(0deg); }
+  20%      { transform: translateX(-12px) rotate(-6deg); }
+  40%      { transform: translateX(12px) rotate(6deg); }
+  60%      { transform: translateX(-8px) rotate(-3deg); }
+  80%      { transform: translateX(8px) rotate(3deg); }
+}
+
+/* Miss Flash */
+#battle-flash {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+  z-index: 100;
+}
+
+#battle-flash.anim-flash {
+  animation: flashRed 0.4s ease forwards;
+}
+
+@keyframes flashRed {
+  0%   { background: rgba(255, 68, 102, 0.35); }
+  100% { background: rgba(255, 68, 102, 0); }
+}
+
+/* Battle End Overlay */
+#battle-end-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 26, 0.82);
+  z-index: 200;
+}
+
+#battle-end-text {
+  font-family: var(--font);
+  font-size: clamp(3rem, 15vw, 6rem);
+  font-weight: 900;
+  animation: endPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes endPopIn {
+  from { transform: scale(0.3); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* ================================
+   Pause Screen
+================================ */
+.pause-content {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.pause-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 2.5rem;
+}
+
+.pause-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.secondary-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background: var(--surface);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.secondary-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ================================
+   Countdown Overlay
+================================ */
+#countdown-overlay {
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 26, 0.78);
+  z-index: 300;
+}
+
+#countdown-text {
+  font-family: var(--font);
+  font-size: clamp(4rem, 20vw, 8rem);
+  font-weight: 900;
+  color: var(--text);
+  text-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
+}
+
+#countdown-text.start {
+  color: var(--easy);
+  text-shadow: 0 0 40px rgba(68, 238, 136, 0.7);
+}
+
+@keyframes countdownPopKf {
+  0%   { transform: scale(2); opacity: 0; }
+  60%  { transform: scale(0.9); opacity: 1; }
+  100% { transform: scale(1);  opacity: 1; }
+}
+
+.anim-countdown {
+  animation: countdownPopKf 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+
+/* ================================
+   Responsive
+================================ */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .mode-buttons {
+    flex-direction: column;
+  }
+
+  .stat-value {
+    font-size: 2.1rem;
+  }
+
+  .typing-input {
+    font-size: 1.25rem;
+  }
+}

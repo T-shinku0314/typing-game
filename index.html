@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeRush - タイピングゲーム</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+
+    <!-- スタート画面 -->
+    <section id="screen-start" class="screen active">
+      <header class="start-header">
+        <h1 class="title">TypeRush</h1>
+        <p class="subtitle">どれだけ速く打てる？</p>
+      </header>
+
+      <div class="gametype-selector">
+        <button class="gametype-btn" data-type="normal">練習モード</button>
+        <button class="gametype-btn active" data-type="battle">ステージ攻略</button>
+      </div>
+
+      <div class="mode-selector" style="display:none">
+        <h2 class="mode-label">モードを選択</h2>
+        <div class="mode-buttons">
+          <button class="mode-btn active" data-mode="rookie">Rookie</button>
+          <button class="mode-btn" data-mode="fighter">Fighter</button>
+          <button class="mode-btn" data-mode="veteran">Veteran</button>
+          <button class="mode-btn" data-mode="elite">Elite</button>
+          <button class="mode-btn" data-mode="legend">Legend</button>
+        </div>
+        <p class="mode-description" id="mode-description">やさしい文でウォームアップ！</p>
+      </div>
+
+      <button class="primary-btn" id="start-btn">スタート！</button>
+    </section>
+
+    <!-- ゲーム画面 -->
+    <section id="screen-game" class="screen">
+      <div class="game-header">
+        <div class="stat-box" id="score-box">
+          <span class="stat-label">SCORE</span>
+          <span class="stat-value" id="score-value">0</span>
+        </div>
+        <div class="stage-indicator" id="stage-indicator" style="display:none">
+          STAGE <span id="stage-value">1</span>
+          <span class="diff-level-label"> / Lv.<span id="diff-level-value">1</span></span>
+        </div>
+        <button class="pause-btn" id="pause-btn">II</button>
+      </div>
+
+      <div class="hp-area" id="hp-area" style="display:none">
+        <div class="hp-row">
+          <span class="hp-label">HP</span>
+          <div class="hp-bar-wrap"><div class="hp-bar hp-bar-player" id="player-hp-bar"></div></div>
+          <span class="hp-value" id="player-hp-value">100</span>
+        </div>
+      </div>
+
+      <div class="battle-extras" id="battle-extras" style="display:none">
+        <div class="combo-row">
+          <span class="combo-display" id="combo-display"></span>
+        </div>
+      </div>
+
+      <div class="enemy-area" id="enemy-area" style="display:none">
+        <div id="enemy-emoji">👾</div>
+        <div id="enemy-name" class="enemy-name"></div>
+      </div>
+
+      <div class="center-content">
+        <div class="word-area">
+          <p class="current-word-ja" id="current-word-ja"></p>
+          <p class="current-word" id="current-word"></p>
+        </div>
+
+        <div class="timer-bar-wrap">
+          <div class="timer-bar" id="timer-bar"></div>
+        </div>
+
+
+      </div>
+
+      <div class="input-area">
+        <input
+          type="text"
+          id="typing-input"
+          class="typing-input"
+          inputmode="url"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="ここに入力..."
+        >
+      </div>
+    </section>
+
+    <!-- ポーズ画面 -->
+    <section id="screen-pause" class="screen">
+      <div class="pause-content">
+        <h2 class="pause-title">一時停止</h2>
+        <div class="pause-buttons">
+          <button class="primary-btn" id="resume-btn">再開</button>
+          <button class="secondary-btn" id="retry-btn">やり直し</button>
+          <button class="secondary-btn" id="home-btn">ホームに戻る</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 結果画面 -->
+    <section id="screen-result" class="screen">
+      <div class="result-content">
+        <h2 class="result-title">ゲーム終了！</h2>
+        <div class="final-score">
+          <span class="final-score-label">最終スコア</span>
+          <span class="final-score-value" id="final-score-value">0</span>
+          <span class="final-score-unit">語</span>
+        </div>
+        <p class="result-message" id="result-message"></p>
+        <div class="battle-result" id="battle-result" style="display:none">
+          <p class="reached-stage-info" id="reached-stage-info"></p>
+          <p class="best-stage-info" id="best-stage-info"></p>
+          <p class="battle-hp-summary" id="battle-hp-summary"></p>
+        </div>
+        <button class="primary-btn" id="restart-btn">もう一度遊ぶ</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- カウントダウンオーバーレイ -->
+  <div id="countdown-overlay" style="display:none">
+    <span id="countdown-text"></span>
+  </div>
+
+  <!-- バトル演出オーバーレイ -->
+  <div id="battle-flash"></div>
+  <div id="battle-end-overlay" style="display:none">
+    <span id="battle-end-text"></span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

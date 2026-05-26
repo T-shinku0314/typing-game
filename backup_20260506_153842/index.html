@@ -20,20 +20,26 @@
       </header>
 
       <div class="gametype-selector">
-        <button class="gametype-btn" data-type="normal">練習モード</button>
-        <button class="gametype-btn active" data-type="battle">ステージ攻略</button>
+        <button class="gametype-btn active" data-type="normal">通常モード</button>
+        <button class="gametype-btn" data-type="battle">HPバトル</button>
       </div>
 
-      <div class="mode-selector" style="display:none">
+      <div class="level-selector" id="level-selector" style="display:none">
+        <div class="level-selector-header">
+          <span class="mode-label" style="margin-bottom:0">レベルを選択</span>
+          <span class="level-progress-text" id="level-progress"></span>
+        </div>
+        <div class="level-list" id="level-list"></div>
+      </div>
+
+      <div class="mode-selector">
         <h2 class="mode-label">モードを選択</h2>
         <div class="mode-buttons">
-          <button class="mode-btn active" data-mode="rookie">Rookie</button>
-          <button class="mode-btn" data-mode="fighter">Fighter</button>
-          <button class="mode-btn" data-mode="veteran">Veteran</button>
-          <button class="mode-btn" data-mode="elite">Elite</button>
-          <button class="mode-btn" data-mode="legend">Legend</button>
+          <button class="mode-btn active" data-mode="easy">Easy</button>
+          <button class="mode-btn" data-mode="normal">Normal</button>
+          <button class="mode-btn" data-mode="hard">Hard</button>
         </div>
-        <p class="mode-description" id="mode-description">やさしい文でウォームアップ！</p>
+        <p class="mode-description" id="mode-description">短い単語でウォームアップ！</p>
       </div>
 
       <button class="primary-btn" id="start-btn">スタート！</button>
@@ -42,23 +48,27 @@
     <!-- ゲーム画面 -->
     <section id="screen-game" class="screen">
       <div class="game-header">
-        <div class="stat-box" id="score-box">
+        <div class="stat-box">
+          <span class="stat-label">TIME</span>
+          <span class="stat-value" id="timer-value">30</span>
+        </div>
+        <div class="stat-box">
           <span class="stat-label">SCORE</span>
           <span class="stat-value" id="score-value">0</span>
         </div>
-        <div class="stage-indicator" id="stage-indicator" style="display:none">
-          STAGE <span id="stage-value">1</span>
-          <span class="diff-level-label"> / Lv.<span id="diff-level-value">1</span></span>
-        </div>
-        <button class="sound-btn" id="sound-btn">🔊</button>
         <button class="pause-btn" id="pause-btn">II</button>
       </div>
 
       <div class="hp-area" id="hp-area" style="display:none">
         <div class="hp-row">
-          <span class="hp-label">HP</span>
+          <span class="hp-label">あなた</span>
           <div class="hp-bar-wrap"><div class="hp-bar hp-bar-player" id="player-hp-bar"></div></div>
           <span class="hp-value" id="player-hp-value">100</span>
+        </div>
+        <div class="hp-row">
+          <span class="hp-label" id="enemy-hp-label">てき</span>
+          <div class="hp-bar-wrap"><div class="hp-bar hp-bar-enemy" id="enemy-hp-bar"></div></div>
+          <span class="hp-value" id="enemy-hp-value">100</span>
         </div>
       </div>
 
@@ -66,24 +76,20 @@
         <div class="combo-row">
           <span class="combo-display" id="combo-display"></span>
         </div>
+        <div class="special-row">
+          <span class="special-label">必殺</span>
+          <div class="special-gauge-wrap">
+            <div class="special-gauge-bar" id="special-gauge-bar"></div>
+          </div>
+          <button class="special-btn" id="special-btn" disabled>必殺技！</button>
+        </div>
       </div>
 
-      <div class="enemy-area" id="enemy-area" style="display:none">
-        <div id="enemy-emoji">👾</div>
-        <div id="enemy-name" class="enemy-name"></div>
-      </div>
+      <div class="enemy-area" id="enemy-area" style="display:none">👾</div>
 
-      <div class="center-content">
-        <div class="word-area">
-          <p class="current-word-ja" id="current-word-ja"></p>
-          <p class="current-word" id="current-word"></p>
-        </div>
-
-        <div class="timer-bar-wrap">
-          <div class="timer-bar" id="timer-bar"></div>
-        </div>
-
-
+      <div class="word-area">
+        <p class="current-word-ja" id="current-word-ja"></p>
+        <p class="current-word" id="current-word"></p>
       </div>
 
       <div class="input-area">
@@ -122,12 +128,11 @@
           <span class="final-score-value" id="final-score-value">0</span>
           <span class="final-score-unit">語</span>
         </div>
-        <div class="result-stats" id="result-stats"></div>
         <p class="result-message" id="result-message"></p>
-        <p class="best-score-info" id="best-score-info"></p>
         <div class="battle-result" id="battle-result" style="display:none">
-          <p class="reached-stage-info" id="reached-stage-info"></p>
-          <p class="best-stage-info" id="best-stage-info"></p>
+          <p class="level-clear-msg" id="level-clear-msg" style="display:none"></p>
+          <p class="battle-enemy-info" id="battle-enemy-info"></p>
+          <p class="battle-outcome" id="battle-outcome"></p>
           <p class="battle-hp-summary" id="battle-hp-summary"></p>
         </div>
         <button class="primary-btn" id="restart-btn">もう一度遊ぶ</button>
@@ -136,13 +141,10 @@
 
   </main>
 
-  <!-- カウントダウンオーバーレイ -->
-  <div id="countdown-overlay" style="display:none">
-    <span id="countdown-text"></span>
-  </div>
-
   <!-- バトル演出オーバーレイ -->
   <div id="battle-flash"></div>
+  <div id="special-flash"></div>
+  <div id="phase2-msg" class="phase2-msg" style="display:none"></div>
   <div id="battle-end-overlay" style="display:none">
     <span id="battle-end-text"></span>
   </div>

@@ -56,7 +56,12 @@
 
       <div class="hp-area" id="hp-area" style="display:none">
         <div class="hp-row">
-          <span class="hp-label">HP</span>
+          <span class="hp-label">敵</span>
+          <div class="hp-bar-wrap"><div class="hp-bar hp-bar-enemy" id="enemy-hp-bar"></div></div>
+          <span class="hp-value" id="enemy-hp-value">100</span>
+        </div>
+        <div class="hp-row">
+          <span class="hp-label">自分</span>
           <div class="hp-bar-wrap"><div class="hp-bar hp-bar-player" id="player-hp-bar"></div></div>
           <span class="hp-value" id="player-hp-value">100</span>
         </div>
@@ -147,6 +152,9 @@
     <span id="battle-end-text"></span>
   </div>
 
+  <!-- データ定義は script.js より先に読み込む（順序を変えないこと） -->
+  <script src="words.js"></script>
+  <script src="enemies.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
